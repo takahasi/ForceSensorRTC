@@ -6,10 +6,11 @@ rtc-template -bcxx \
     --module-version=1.0 --module-vendor='Takahashi' \
     --module-category=sensor \
     --module-comp-type=DataFlowComponent --module-act-type=SPORADIC \
-    --module-max-inst=10 --outport=out:TimedDoubleSeq \
-    --config=max_scale_Fx:double:1 \
-    --config=max_scale_Fy:double:1 \
-    --config=max_scale_Fz:double:1 \
-    --config=max_scale_Mx:double:1 \
-    --config=max_scale_My:double:1 \
-    --config=max_scale_Mz:double:1
+    --module-max-inst=10 --outport=out:TimedFloatSeq \
+    --config=points_moving_average:char:0 \
+    --config=max_scale_Fx:float:1 \
+    --config=max_scale_Fy:float:1 \
+    --config=max_scale_Fz:float:1 \
+    --config=max_scale_Mx:float:1 \
+    --config=max_scale_My:float:1 \
+    --config=max_scale_Mz:float:1

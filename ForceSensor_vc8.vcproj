@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ForceSensor"
-	ProjectGUID="{546B54FA-73F9-11E6-9061-001C425CD32D}"
+	ProjectGUID="{19FF8A6E-9A93-11E6-990E-001C425CD32D}"
 	RootNamespace="ForceSensor"
 	Keyword="Win32Proj"
 	>
@@ -180,7 +180,7 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{546B75D4-73F9-11E6-9061-001C425CD32D}"
+			UniqueIdentifier="{19FFAA62-9A93-11E6-990E-001C425CD32D}"
 			>
 			<File
 				RelativePath="ForceSensor.cpp"
@@ -190,7 +190,7 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{546B78E0-73F9-11E6-9061-001C425CD32D}"
+			UniqueIdentifier="{19FFADFA-9A93-11E6-990E-001C425CD32D}"
 			>
 			<File
 				RelativePath="ForceSensor.h"

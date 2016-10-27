@@ -80,18 +80,43 @@ int sensor_processor_wacoh_udynpick::setup(void)
     sleep(1);
 
     /* set low pass filter */
-    if (2 != write(fd, "8F", 2)) { /* 8F:8-points average */
+    if (2 != write(fd, "1F", 2)) { /* 8F:8-points average */
         ERROR("failed to write");
         return -1;
     }
     sleep(1);
 
     /* dummy read to set initial offset */
+    char str[100];
+    int len = 0;
+
     if (1 != write(fd, "R", 1)) {
         ERROR("failed to write");
         return -1;
     }
+    (void)read(fd, &str, 27);
+
     sleep(1);
+
+    /* checks version information */
+    memset(str, 0x00, sizeof(str));
+    (void)write(fd, "V", 1);
+    len = read(fd, &str, 100);
+    printf("---\n");
+    for (int i = 0; i < len; i++) {
+        printf("%02x ", str[i]);
+    }
+    printf("---\n");
+
+    /* checks sensor specific parmeters */
+    memset(str, 0x00, sizeof(str));
+    (void)write(fd, "p", 1);
+    len = read(fd, &str, 100);
+    printf("---\n");
+    for (int i = 0; i < len; i++) {
+        printf("%02x ", str[i]);
+    }
+    printf("---\n");
 
     return 0;
 }
@@ -111,7 +136,7 @@ int sensor_processor_wacoh_udynpick::get_data(_sensor_data *s)
     char str[27];
 
     /* read values */
-    if (1!= write(fd, "R", 1)) {
+    if (1 != write(fd, "R", 1)) {
         ERROR("failed to write");
         return -1;
     }
@@ -138,7 +163,7 @@ int sensor_processor_wacoh_udynpick::show_data(_sensor_data *s)
 {
     printf("[%d] ", s->tick);
     for (int i = 0; i < AXIS_NUM; i++) {
-        printf("%d,", s->data[i]);
+        printf("%d,", s->data[i] - 8192);
     }
     printf("\n");
 

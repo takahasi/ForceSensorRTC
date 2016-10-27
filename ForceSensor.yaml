@@ -16,11 +16,11 @@ rtcProfile:
     executionType: PeriodicExecutionContext
     creationDate:
       year: 2016
-      month: 9
-      day: 6
-      hour: 15
-      minute: 15
-      second: 34
+      month: 10
+      day: 25
+      hour: 18
+      minute: 12
+      second: 2
     updateDate:
       year: 
       month: 
@@ -114,13 +114,13 @@ rtcProfile:
     -
       portType: DataOutPort
       name: out
-      type: TimedDoubleSeq
+      type: TimedFloateq
       interfaceType: CorbaPort
       dataflowType: Push,Pull
       subscriptionType: Periodic,New,Flush
       idlFile: 
       "rtcDoc::doc":
-        type: TimedDoubleSeq
+        type: TimedFloateq
         description: 
         number: 0
         occerrence: 
@@ -133,8 +133,20 @@ rtcProfile:
   configurationSet: 
     configuration: 
       - 
+        name: points_moving_average
+        type: char
+        varname: points_moving_average
+        defaultValue: 0
+        "rtcDoc::doc":
+          constraint: constraint
+          dataname: dataname
+          defaultValue: 0
+          description: description
+          range: range
+          unit: unit
+      - 
         name: max_scale_Fx
-        type: double
+        type: float
         varname: max_scale_Fx
         defaultValue: 1
         "rtcDoc::doc":
@@ -146,7 +158,7 @@ rtcProfile:
           unit: unit
       - 
         name: max_scale_Fy
-        type: double
+        type: float
         varname: max_scale_Fy
         defaultValue: 1
         "rtcDoc::doc":
@@ -158,7 +170,7 @@ rtcProfile:
           unit: unit
       - 
         name: max_scale_Fz
-        type: double
+        type: float
         varname: max_scale_Fz
         defaultValue: 1
         "rtcDoc::doc":
@@ -170,7 +182,7 @@ rtcProfile:
           unit: unit
       - 
         name: max_scale_Mx
-        type: double
+        type: float
         varname: max_scale_Mx
         defaultValue: 1
         "rtcDoc::doc":
@@ -182,7 +194,7 @@ rtcProfile:
           unit: unit
       - 
         name: max_scale_My
-        type: double
+        type: float
         varname: max_scale_My
         defaultValue: 1
         "rtcDoc::doc":
@@ -194,7 +206,7 @@ rtcProfile:
           unit: unit
       - 
         name: max_scale_Mz
-        type: double
+        type: float
         varname: max_scale_Mz
         defaultValue: 1
         "rtcDoc::doc":

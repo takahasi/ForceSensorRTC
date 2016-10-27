@@ -50,15 +50,15 @@ class ForceSensor  : public RTC::DataFlowComponentBase
 
   // The activated action (Active state entry action)
   // former rtc_active_entry()
-  // virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
+  virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
 
   // The deactivated action (Active state exit action)
   // former rtc_active_exit()
-  // virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
+  virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
 
   // The execution action that is invoked periodically
   // former rtc_active_do()
-  // virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
+  virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
 
   // The aborting action when main logic error occurred.
   // former rtc_aborting_entry()
@@ -84,12 +84,13 @@ class ForceSensor  : public RTC::DataFlowComponentBase
  protected:
   // Configuration variable declaration
   // <rtc-template block="config_declare">
-  double m_max_scale_Fx;
-  double m_max_scale_Fy;
-  double m_max_scale_Fz;
-  double m_max_scale_Mx;
-  double m_max_scale_My;
-  double m_max_scale_Mz;
+  char m_points_moving_average;
+  float m_max_scale_Fx;
+  float m_max_scale_Fy;
+  float m_max_scale_Fz;
+  float m_max_scale_Mx;
+  float m_max_scale_My;
+  float m_max_scale_Mz;
   
   // </rtc-template>
 
@@ -100,8 +101,8 @@ class ForceSensor  : public RTC::DataFlowComponentBase
 
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
-  TimedDoubleSeq m_out;
-  OutPort<TimedDoubleSeq> m_outOut;
+  TimedFloatSeq m_out;
+  OutPort<TimedFloatSeq> m_outOut;
 
   // </rtc-template>
 
@@ -121,6 +122,7 @@ class ForceSensor  : public RTC::DataFlowComponentBase
   // </rtc-template>
 
  private:
+  int m_fd;
 
 };
 

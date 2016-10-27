@@ -1,10 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForceSensorComp", "ForceSensorComp_vc8.vcproj", "{542325AE-73F9-11E6-9061-001C425CD32D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForceSensorComp", "ForceSensorComp_vc8.vcproj", "{19B756A4-9A93-11E6-990E-001C425CD32D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForceSensor", "ForceSensor_vc8.vcproj", "{546B54FA-73F9-11E6-9061-001C425CD32D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForceSensor", "ForceSensor_vc8.vcproj", "{19FF8A6E-9A93-11E6-990E-001C425CD32D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -16,22 +16,22 @@ Global
 		Debug|x64 = Debug|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Release|Win32.ActiveCfg = Release|Win32
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Release|Win32.Build.0   = Release|Win32
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Release|x64.ActiveCfg = Release|x64
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Release|x64.Build.0   = Release|x64
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Debug|Win32.Build.0   = Debug|Win32
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Debug|x64.ActiveCfg = Debug|x64
-		{542325AE-73F9-11E6-9061-001C425CD32D}.Debug|x64.Build.0   = Debug|x64
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Release|Win32.ActiveCfg = Release|Win32
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Release|Win32.Build.0   = Release|Win32
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Release|x64.ActiveCfg = Release|x64
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Release|x64.Build.0   = Release|x64
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Debug|Win32.Build.0   = Debug|Win32
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Debug|x64.ActiveCfg = Debug|x64
-		{546B54FA-73F9-11E6-9061-001C425CD32D}.Debug|x64.Build.0   = Debug|x64
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Release|Win32.ActiveCfg = Release|Win32
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Release|Win32.Build.0   = Release|Win32
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Release|x64.ActiveCfg = Release|x64
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Release|x64.Build.0   = Release|x64
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Debug|Win32.Build.0   = Debug|Win32
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Debug|x64.ActiveCfg = Debug|x64
+		{19B756A4-9A93-11E6-990E-001C425CD32D}.Debug|x64.Build.0   = Debug|x64
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Release|Win32.ActiveCfg = Release|Win32
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Release|Win32.Build.0   = Release|Win32
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Release|x64.ActiveCfg = Release|x64
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Release|x64.Build.0   = Release|x64
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Debug|Win32.Build.0   = Debug|Win32
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Debug|x64.ActiveCfg = Debug|x64
+		{19FF8A6E-9A93-11E6-990E-001C425CD32D}.Debug|x64.Build.0   = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
