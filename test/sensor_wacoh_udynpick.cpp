@@ -69,7 +69,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
     sleep(5);
 
     /* checks version information */
-    (void)read(fd, &str, sizeof(str)); /* dummy read */
+    (void)read(fd, str, sizeof(str)); /* dummy read */
     memset(str, 0x00, sizeof(str));
     (void)write(fd, "V", 1);
 
@@ -90,7 +90,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
         /* select timeout or caught unknown signals */
     }
 
-    (void)read(fd, &str, sizeof(str));
+    (void)read(fd, str, sizeof(str));
     printf("\nVersion information:\n%s", str);
 
     /* checks sensor specific parmeters */
@@ -109,7 +109,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
             /* select timeout or caught unknown signals */
             continue;
         }
-        (void)read(fd, &str, sizeof(str));
+        (void)read(fd, str, sizeof(str));
         sscanf(str, "%f,%f,%f,%f,%f,%f",
                 &sense[0],
                 &sense[1],
@@ -139,7 +139,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
     }
 
     /* checks filter paramter */
-    (void)read(fd, &str, sizeof(str)); /* dummy read */
+    (void)read(fd, str, sizeof(str)); /* dummy read */
     if (2 != write(fd, "0F", 2)) {
         ERROR("failed to write");
         return -1;
@@ -157,7 +157,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
     }
 
     memset(str, 0x00, sizeof(str));
-    (void)read(fd, &str, sizeof(str));
+    (void)read(fd, str, sizeof(str));
     printf("\nCurrent filter:\n%s", str);
 
     /* set offset as initial values */
@@ -173,7 +173,7 @@ int sensor_processor_wacoh_udynpick::setup(void)
         ERROR("failed to write");
         return -1;
     }
-    (void)read(fd, &str, sizeof(str)); /* dummy read */
+    (void)read(fd, str, sizeof(str)); /* dummy read */
 
     return 0;
 }
@@ -193,7 +193,7 @@ int sensor_processor_wacoh_udynpick::get_data(_sensor_data *s)
     char str[27];
 
     /* dummy read */
-    (void)read(fd, &str, sizeof(str));
+    (void)read(fd, str, sizeof(str));
 
     /* read values 1 time */
     if (1 != write(fd, "R", 1)) {
@@ -201,7 +201,7 @@ int sensor_processor_wacoh_udynpick::get_data(_sensor_data *s)
         return -1;
     }
 
-    int len = read(fd, &str, sizeof(str));
+    int len = read(fd, str, sizeof(str));
     if (len < 0) {
         ERROR("failed to read");
         return -1;
