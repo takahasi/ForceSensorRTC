@@ -9,6 +9,11 @@
 
 #include "ForceSensor.h"
 
+#include <rtm/SystemLogger.h>
+
+#ifdef WIN32
+#define BAUD_RATE    921600
+#else /* WIN32 */
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -17,10 +22,10 @@
 #include <string.h>
 #include <termios.h>
 #include <time.h>
-
-#include <rtm/SystemLogger.h>
-
 #define BAUD_RATE    B921600
+#endif /* WIN32 */
+
+
 
 // Module specification
 // <rtc-template block="module_spec">
@@ -38,7 +43,11 @@ static const char* forcesensor_spec[] =
     "language",          "C++",
     "lang_type",         "compile",
     // Configuration variables
+#ifdef WIN32
+	"conf.default.port_name", "\\\\.\\COM4",
+#else /* WIN32 */
     "conf.default.port_name", "/dev/ttyUSB0",
+#endif /* WIN32 */
     "conf.default.points_moving_average", "8",
 
     // Widget
@@ -94,11 +103,19 @@ RTC::ReturnCode_t ForceSensor::onInitialize()
 
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
+#ifdef WIN32
+  bindParameter("port_name", m_port_name, "\\\\.\\COM4");
+#else /* WIN32 */
   bindParameter("port_name", m_port_name, "/dev/ttyUSB0");
+#endif /* WIN32 */
   bindParameter("points_moving_average", m_points_moving_average, "8");
   // </rtc-template>
 
+#ifdef WIN32
+  m_hComm = INVALID_HANDLE_VALUE;
+#else /* WIN32 */
   m_fd = -1;
+#endif /* WIN32 */
   m_out.data.length(6);
   (void)memset(sense, 0, sizeof(sense));
 
@@ -131,8 +148,67 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
 {
     RTC_TRACE(("Enter onActivated()"));
 
-    ssize_t len = 0;
-    char str[256] = {0};
+	char str[256] = { 0 };
+
+	/* Open COM port */
+#ifdef WIN32
+	m_hComm = CreateFile((LPCTSTR)m_port_name.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+	if (m_hComm == INVALID_HANDLE_VALUE) {
+		RTC_ERROR(("failed to open"));
+		return RTC::RTC_ERROR;
+	}
+
+	DCB config; 
+	config.DCBlength = sizeof(DCB);
+	config.BaudRate = BAUD_RATE;
+	config.ByteSize = 8;
+	config.Parity = NOPARITY;
+	config.StopBits = ONESTOPBIT;
+	config.fBinary = TRUE;
+	config.fOutxCtsFlow = FALSE;
+	config.fOutxDsrFlow = FALSE;
+	config.fDtrControl = DTR_CONTROL_DISABLE;
+	config.fRtsControl = RTS_CONTROL_DISABLE;
+	config.fOutX = FALSE;
+	config.fInX = FALSE;
+	config.fTXContinueOnXoff = TRUE;
+	config.XonLim = 512;
+	config.XoffLim = 512;
+	config.XonChar = 0x11;
+	config.XoffChar = 0x13;
+	config.fNull = TRUE;
+	config.fAbortOnError = TRUE;
+	config.fErrorChar = FALSE;
+	config.ErrorChar = 0x00;
+	config.EofChar = 0x03;
+	config.EvtChar = 0x02;
+
+	BOOL ret = SetCommState(m_hComm, &config);
+	if (ret == FALSE) {
+		RTC_ERROR(("failed to SetCommState()"));
+		return RTC::RTC_ERROR;
+	}
+
+	COMMTIMEOUTS timeout;
+
+	timeout.ReadIntervalTimeout = 100;
+	timeout.ReadTotalTimeoutMultiplier = 0;
+	timeout.ReadTotalTimeoutConstant = 100;
+	timeout.WriteTotalTimeoutMultiplier = 0;
+	timeout.WriteTotalTimeoutConstant = 100;
+
+	ret = SetCommTimeouts(m_hComm, &timeout);
+	if (ret == FALSE) //é∏îsÇµÇΩèÍçá
+	{
+		RTC_ERROR(("failed to SetCommTimeoouts()"));
+		return RTC::RTC_ERROR;
+    }
+
+	DWORD errors;
+	COMSTAT comStat;
+	ClearCommError(m_hComm, &errors, &comStat);
+
+#else /* WIN32 */
 
     if (m_fd == -1) {
         m_fd = open(m_port_name.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -150,8 +226,18 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
     cfsetospeed(&tio, BAUD_RATE);
     tcsetattr(m_fd, TCSANOW, &tio);
 
+#endif /* WIN32 */
+
+
     /* checks version information */
-    len = read(m_fd, str, sizeof(str)); /* dummy read */
+#ifdef WIN32
+	DWORD len;
+	ReadFile(m_hComm, str, sizeof(str), &len, NULL); /* dummy read */
+	(void)memset(str, 0x00, sizeof(str));
+	WriteFile(m_hComm, "V", 1, &len, NULL); 
+	ReadFile(m_hComm, str, sizeof(str), &len, NULL);
+#else /* WIN32 */
+	ssize_t len = read(m_fd, str, sizeof(str)); /* dummy read */
     (void)memset(str, 0x00, sizeof(str));
     len = write(m_fd, "V", 1);
 
@@ -173,13 +259,23 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
     }
 
     len = read(m_fd, str, sizeof(str));
+
+#endif /* WIN32 */
+
     RTC_INFO(("Version information:"));
     RTC_INFO_STR((str));
 
+
     /* checks sensor specific parmeters */
-    int retry = 0;
+
+	int retry = 0;
     while (retry++ < 3) {
-        (void)memset(str, 0x00, sizeof(str));
+		(void)memset(str, 0x00, sizeof(str));
+
+#ifdef WIN32
+		WriteFile(m_hComm, "p", 1, &len, NULL);
+		ReadFile(m_hComm, str, sizeof(str), &len, NULL);
+#else /* WIN32 */
         len = write(m_fd, "p", 1);
 
         tv.tv_sec = 1;
@@ -196,6 +292,7 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
             continue;
         }
         len = read(m_fd, str, sizeof(str));
+#endif /* WIN32 */
         sscanf(str, "%f,%f,%f,%f,%f,%f",
                 &sense[0], &sense[1], &sense[2],
                 &sense[3], &sense[4], &sense[5]);
@@ -236,7 +333,12 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
             break;
     }
     /* #F:#-points average */
-    if (2 != write(m_fd, average_command, 2)) {
+#ifdef WIN32
+	if (FALSE == WriteFile(m_hComm, average_command, 2, &len, NULL))
+#else /* WIN32 */
+	if (2 != write(m_fd, average_command, 2))
+#endif /* WIN32 */
+	{
         RTC_ERROR(("failed to write"));
         return RTC::RTC_ERROR;
     }
@@ -244,17 +346,32 @@ RTC::ReturnCode_t ForceSensor::onActivated(RTC::UniqueId ec_id)
 
     /* set offset as initial values */
     for (int i = 0; i < 3; i++) {
-        if (1 != write(m_fd, "O", 1)) {
+#ifdef WIN32
+		if (FALSE == WriteFile(m_hComm, "O", 1, &len, NULL))
+#else /* WIN32 */
+		if (1 != write(m_fd, "O", 1))
+#endif /* WIN32 */
+		{
             RTC_ERROR(("failed to write"));
             return RTC::RTC_ERROR;
         }
     }
-    if (1 != write(m_fd, "R", 1)) {
+#ifdef WIN32
+	if (FALSE == WriteFile(m_hComm, "R", 1, &len, NULL))
+#else /* WIN32 */
+    if (1 != write(m_fd, "R", 1))
+#endif /* WIN32 */
+	{
         RTC_ERROR(("failed to write"));
         return RTC::RTC_ERROR;
-    }
-    len = read(m_fd, str, sizeof(str));
-    if (len < 0) {
+
+	}
+#ifdef WIN32
+	if (FALSE == ReadFile(m_hComm, str, sizeof(str), &len, NULL))
+#else /* WIN32 */
+	if (0 > read(m_fd, str, sizeof(str)))
+#endif /* WIN32 */
+	{
         RTC_WARN(("failed to read"));
     }
 
@@ -268,6 +385,10 @@ RTC::ReturnCode_t ForceSensor::onDeactivated(RTC::UniqueId ec_id)
 {
     RTC_TRACE(("Enter onDeactivated()"));
 
+#ifdef WIN32
+	CloseHandle(m_hComm);
+	m_hComm = INVALID_HANDLE_VALUE;
+#else /* WIN32 */
     if (m_fd == -1) {
         RTC_INFO(("already closed"));
         return RTC::RTC_OK;
@@ -278,7 +399,8 @@ RTC::ReturnCode_t ForceSensor::onDeactivated(RTC::UniqueId ec_id)
         return RTC::RTC_ERROR;
     }
 
-    m_fd = -1;
+	m_fd = -1;
+#endif /* WIN32 */
 
     RTC_TRACE(("Exit onDeactivated()"));
 
@@ -288,22 +410,36 @@ RTC::ReturnCode_t ForceSensor::onDeactivated(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ForceSensor::onExecute(RTC::UniqueId ec_id)
 {
-    ssize_t len = 0;
-    char str[27] = {0};
-    int tick = 0;
+	RTC_TRACE(("Enter onExecute()"));
 
-    RTC_TRACE(("Enter onExecute()"));
+	char str[27] = { 0 };
+	int tick = 0;
 
+#ifdef WIN32
+	DWORD len;
+	ReadFile(m_hComm, str, sizeof(str), &len, NULL);
+
+	if (FALSE == ReadFile(m_hComm, str, sizeof(str), &len, NULL))
+#else /* WIN32 */
     /* dummy read */
-    len = read(m_fd, str, sizeof(str));
+    ssize_t len = read(m_fd, str, sizeof(str));
+#endif /* WIN32 */
+
     (void)memset(str, 0x00, sizeof(str));
 
     /* request next data */
-    if (1 != write(m_fd, "R", 1)) {
+#ifdef WIN32
+	if (FALSE == WriteFile(m_hComm, "R", 1, &len, NULL))
+#else /* WIN32 */
+	if (1 != write(m_fd, "R", 1))
+#endif /* WIN32 */
+	{
         RTC_ERROR(("failed to write"));
         return RTC::RTC_ERROR;
     }
 
+#ifdef WIN32
+#else /* WIN32 */
     fd_set fds;
     struct timeval tv;
 
@@ -320,10 +456,15 @@ RTC::ReturnCode_t ForceSensor::onExecute(RTC::UniqueId ec_id)
         /* select timeout or caught unknown signals */
         return RTC::RTC_OK;
     }
+#endif WIN32
 
     /* read values */
-    len = read(m_fd, str, sizeof(str));
-    if (len < 0) {
+#ifdef WIN32
+	if (FALSE == ReadFile(m_hComm, str, sizeof(str), &len, NULL))
+#else /* WIN32 */
+	if (0 > read(m_fd, str, sizeof(str))
+#endif /* WIN32 */
+	{
         RTC_ERROR(("failed to read"));
         return RTC::RTC_ERROR;
     }

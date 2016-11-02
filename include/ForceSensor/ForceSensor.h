@@ -14,6 +14,11 @@
 #include <rtm/idl/ExtendedDataTypesSkel.h>
 #include <rtm/idl/InterfaceDataTypesSkel.h>
 
+#ifdef WIN32
+#include <windows.h>
+#include <stdint.h>
+#endif
+
 // Service implementation headers
 // <rtc-template block="service_impl_h">
 
@@ -282,7 +287,11 @@ class ForceSensor
   
   // </rtc-template>
 
+#ifdef WIN32
+  HANDLE m_hComm;
+#else /* WIN32 */
   int m_fd; /* file discripter of sensor device */
+#endif /* WIN32 */
   float sense[6]; /* sensitivity characteristic */
 
 };
