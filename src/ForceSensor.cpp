@@ -456,13 +456,13 @@ RTC::ReturnCode_t ForceSensor::onExecute(RTC::UniqueId ec_id)
         /* select timeout or caught unknown signals */
         return RTC::RTC_OK;
     }
-#endif WIN32
+#endif /* WIN32 */
 
     /* read values */
 #ifdef WIN32
 	if (FALSE == ReadFile(m_hComm, str, sizeof(str), &len, NULL))
 #else /* WIN32 */
-	if (0 > read(m_fd, str, sizeof(str))
+	if (0 > read(m_fd, str, sizeof(str)))
 #endif /* WIN32 */
 	{
         RTC_ERROR(("failed to read"));
