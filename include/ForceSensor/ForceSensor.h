@@ -287,6 +287,12 @@ class ForceSensor
   
   // </rtc-template>
 
+  RTC::ReturnCode_t openSerialPort(void);
+  RTC::ReturnCode_t readSerialPort(char *s, int slen, int *len);
+  RTC::ReturnCode_t writeSerialPort(char *s, int slen, int *len);
+  RTC::ReturnCode_t waitReadSerialPort(void);
+  RTC::ReturnCode_t closeSerialPort(void);
+
 #ifdef WIN32
   HANDLE m_hComm;
 #else /* WIN32 */
