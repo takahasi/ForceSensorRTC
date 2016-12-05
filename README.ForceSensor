@@ -13,6 +13,7 @@
 #   --config=port_name:string:/dev/ttyUSB0 --config=points_moving_average:short:8 
 #   --outport=out:RTC::TimedFloatSeq 
 
+[![Build Status](https://travis-ci.org/takahasi/ForceSensorRTC.svg?branch=master)](https://travis-ci.org/takahasi/ForceSensorRTC)
 
 ======================================================================
     Basic Information
@@ -131,4 +132,3 @@ software is licensed under the Lesser General Public License. See
 COPYING.LESSER.
 
 This area is reserved for future OpenRTM.
-
