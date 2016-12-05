@@ -13,8 +13,6 @@
 #   --config=port_name:string:/dev/ttyUSB0 --config=points_moving_average:short:8 
 #   --outport=out:RTC::TimedFloatSeq 
 
-[![Build Status](https://travis-ci.org/takahasi/ForceSensorRTC.svg?branch=master)](https://travis-ci.org/takahasi/ForceSensorRTC)
-
 ======================================================================
     Basic Information
 ======================================================================
