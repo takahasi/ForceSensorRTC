@@ -1,0 +1,15 @@
+language: cpp
+sudo: required
+compiler:
+  - gcc
+os:
+  - linux
+before_install:
+    - sudo echo "deb http://$reposerver/pub/Linux/ubuntu/ `sed -n /DISTRIB_CODENAME=/p /etc/lsb-release` main" >> /etc/apt/sources.list
+    - sudo apt-get -qq update
+    - sudo apt-get install -y gcc g++ make cmake
+    - sudo apt-get install -y omniorb-nameserver
+    - sudo apt-get install -y openrtm-aist
+    - sudo apt-get install -y openrtm-aist-example
+script:
+  - mkdir build && cd build && cmake .. && make
