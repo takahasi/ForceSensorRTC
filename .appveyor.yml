@@ -10,18 +10,16 @@ environment:
   RTM_VC_VERSION: 14
 
 install:
-  - cd c:\projects
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
 #  - ps: msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
-  - ps: start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
-  - ps: env
-  - ps: type install.log
+  - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
+  - env
+  - type install.log
 
 build:
 
 # scripts to run before build
 before_build:
-  - cd c:\projects
-  - mkdir build
-  - cd build
-  - cmake ..
+  - mkdir build && cd build
+  - cmake -G"Visual Studio 14 Win64" ..
+  - cmake --build . --config Release
