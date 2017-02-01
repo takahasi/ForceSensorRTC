@@ -1,15 +1,19 @@
 # Operating system (build VM template)
 os: Visual Studio 2015
 
+platform: x64
+
 # clone directory
 clone_folder: c:\projects
+
+environment:
+  RTM_VC_VERSION: 14
 
 install:
   - cd c:\projects
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
 #  - ps: msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
-  - ps: New-ItemProperty -Name LocalAccountTokenFilterPolicy -path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -propertyType DWord -value 1
-  - ps: msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
+  - ps: start wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /l*v install.log
   - ps: env
   - ps: type install.log
 
@@ -18,7 +22,6 @@ build:
 # scripts to run before build
 before_build:
   - cd c:\projects
-  - set RTM_VC_VERSION=14
   - mkdir build
   - cd build
   - cmake ..
