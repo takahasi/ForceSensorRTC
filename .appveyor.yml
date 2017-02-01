@@ -13,7 +13,8 @@ build:
 before_build:
   - cd c:\projects
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
-  - msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn
+  - msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /help
+  - msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /quiet /norestart
   - set VC_VERSION=14
   - mkdir build
   - cd build
