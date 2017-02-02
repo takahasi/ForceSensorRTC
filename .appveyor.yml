@@ -27,4 +27,4 @@ build:
 
 before_build:
   - mkdir build && cd build
-  - cmake -G %RTM_VC_VERSION_CMAKE% ..
+  - ps: cmake -G "$env:RTM_VC_VERSION_CMAKE" ..
