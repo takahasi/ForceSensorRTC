@@ -1,13 +1,9 @@
-os:
-  - Visual Studio 2015
-  - Visual Studio 2013
-
-environment:
-  matrix:
-    - RTM_VC_VERSION: vc14
-      RTM_CMAKE_VC_VERSION: "Visual Studio 14 Win64"
-    - RTM_VC_VERSION: vc12
-      RTM_CMAKE_VC_VERSION: "Visual Studio 12 Win64"
+matrix:
+  allow_failures:
+    - os: Visual Studio 2015
+      RTM_VC_VERSION: vc14
+    - os: Visual Studio 2013
+      RTM_VC_VERSION: vc12
 
 platform: x64
 
@@ -23,7 +19,6 @@ cache:
 install:
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /forcerestart /le "install.log"
-#  - ps: Start-Sleep -s 10
   - choco install doxygen.install
   - env
   - type install.log
@@ -32,4 +27,5 @@ build:
 
 before_build:
   - mkdir build && cd build
-  - cmake -G "$env:RTM_CMAKE_VC_VERSION" ..
+  - if [[ "$RTM_VC_VERSION" == "vc14" ]]; then cmake -G "Visual Studio 14 Win64" ..; fi
+  - if [[ "$RTM_VC_VERSION" == "vc12" ]]; then cmake -G "Visual Studio 12 Win64" ..; fi
