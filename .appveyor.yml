@@ -1,22 +1,24 @@
-os: Visual Studio 2015
+matrix:
+  allow_failures:
+    - os: Visual Studio 2015
+      RTM_VC_VERSION: vc14
+      RTM_CMAKE_VC_VERSION: "Visual Studio 14 Win64"
+    - os: Visual Studio 2013
+      RTM_VC_VERSION: vc12
+      RTM_CMAKE_VC_VERSION: "Visual Studio 12 Win64"
 
 platform: x64
 
 clone_folder: c:\projects
 
-environment:
-  RTM_VC_VERSION: vc14
+configuration:
+  - Debug
+  - Release
 
 install:
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
-    #  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0"
-    #  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "PromptOnSecureDesktop" /t REG_DWORD /d "0"
-    #  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "EnableLUA" /t REG_DWORD /d "0"
-    #  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "FilterAdministratorToken" /t REG_DWORD /d "1"
-    #  - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
-    #  - ps: Start-Sleep -s 10
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /forcerestart /le "install.log"
-  - ps: Start-Sleep -s 10
+#  - ps: Start-Sleep -s 10
   - choco install doxygen.install
   - env
   - type install.log
@@ -25,5 +27,4 @@ build:
 
 before_build:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 14 Win64" ..
-  - cmake --build . --config Release
+  - cmake -G %RTM_CMAKE_VC_VERSION% ..
