@@ -5,7 +5,7 @@ platform: x64
 clone_folder: c:\projects
 
 environment:
-  RTM_VC_VERSION: 14
+  RTM_VC_VERSION: vc14
 
 install:
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
@@ -18,6 +18,7 @@ install:
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /norestart /leawi "install.log"
   - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
   - ps: Start-Sleep -s 10
+  - appveyor-retry choco install doxygen
   - env
   - type install.log
 
