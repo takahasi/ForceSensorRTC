@@ -15,6 +15,9 @@ configuration:
   - Debug
   - Release
 
+cache:
+    - c:\projects\OpenRTM-aist-1.1.2-RELEASE_x86_64.msi
+
 install:
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /forcerestart /le "install.log"
@@ -27,4 +30,4 @@ build:
 
 before_build:
   - mkdir build && cd build
-  - cmake -G %RTM_CMAKE_VC_VERSION% ..
+  - cmake -G "{RTM_CMAKE_VC_VERSION}" ..
