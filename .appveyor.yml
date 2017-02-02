@@ -16,6 +16,8 @@ install:
   - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
   - ps: Start-Sleep -s 10
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /norestart /leawi "install.log"
+  - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
+  - ps: Start-Sleep -s 10
   - env
   - type install.log
 
