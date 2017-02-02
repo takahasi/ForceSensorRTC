@@ -1,10 +1,12 @@
-matrix:
-  allow_failures:
-    - os: Visual Studio 2015
-      RTM_VC_VERSION: vc14
+os:
+  - Visual Studio 2015
+  - Visual Studio 2013
+
+evivironment:
+  matrix:
+    - RTM_VC_VERSION: vc14
       RTM_CMAKE_VC_VERSION: "Visual Studio 14 Win64"
-    - os: Visual Studio 2013
-      RTM_VC_VERSION: vc12
+    - RTM_VC_VERSION: vc12
       RTM_CMAKE_VC_VERSION: "Visual Studio 12 Win64"
 
 platform: x64
@@ -30,4 +32,4 @@ build:
 
 before_build:
   - mkdir build && cd build
-  - cmake -G "{RTM_CMAKE_VC_VERSION}" ..
+  - cmake -G "$env:RTM_CMAKE_VC_VERSION" ..
