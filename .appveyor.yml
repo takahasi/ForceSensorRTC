@@ -2,7 +2,7 @@ os:
   - Visual Studio 2015
   - Visual Studio 2013
 
-evivironment:
+environment:
   matrix:
     - RTM_VC_VERSION: vc14
       RTM_CMAKE_VC_VERSION: "Visual Studio 14 Win64"
