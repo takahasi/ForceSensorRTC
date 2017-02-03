@@ -19,6 +19,7 @@ cache:
 install:
   - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
   - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /forcerestart /le "install.log"
+  - ps: Start-S1leep -s 10
   - choco install doxygen.install
   - env
   - type install.log
