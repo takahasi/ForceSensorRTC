@@ -5,7 +5,6 @@ include:
   - os: linux
     compiler: gcc
     env: DIST=precise
-  - DIST=trusty
   - os: linux
     dist: trusty
     compiler: gcc
