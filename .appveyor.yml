@@ -4,13 +4,13 @@ environment:
   matrix:
     - RTM_VC_VERSION: vc14
       RTM_VC_VERSION_CMAKE: "Visual Studio 14 Win64"
-      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
+      RTM_MSI: OpenRTM-aist-1.1.2-RELEASE_x86_64.msi
     - RTM_VC_VERSION: vc12
       RTM_VC_VERSION_CMAKE: "Visual Studio 12 Win64"
-      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
+      RTM_MSI: OpenRTM-aist-1.1.2-RELEASE_x86_64.msi
     - RTM_VC_VERSION: vc11
       RTM_VC_VERSION_CMAKE: "Visual Studio 11 Win64"
-      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
+      RTM_MSI: OpenRTM-aist-1.1.2-RELEASE_x86_64.msi
 
 platform: x64
 
@@ -22,7 +22,7 @@ configuration:
 
 install:
   - choco install doxygen.install
-  - ps: Start-FileDownload "$env:RTM_MSI_URL\$env:RTM_MSI"
+  - ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
   - start /wait msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
   - ps: Start-Sleep -s 10 # wait restart
   - env
