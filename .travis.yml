@@ -2,14 +2,14 @@ language: cpp
 sudo: required
 
 include:
-  - os: linux
-    compiler: gcc
+#  - os: linux
+#    compiler: gcc
   - os: linux
     dist: trusty
     compiler: gcc
 
 env:
-  - DIST=precise
+#  - DIST=precise
   - DIST=trusty
 
 addons:
