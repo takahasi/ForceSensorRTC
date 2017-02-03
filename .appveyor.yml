@@ -1,9 +1,16 @@
 environment:
+  global:
+    - RTM_MSI_URL: http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/
   matrix:
     - RTM_VC_VERSION: vc14
       RTM_VC_VERSION_CMAKE: "Visual Studio 14 Win64"
+      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
     - RTM_VC_VERSION: vc12
       RTM_VC_VERSION_CMAKE: "Visual Studio 12 Win64"
+      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
+    - RTM_VC_VERSION: vc11
+      RTM_VC_VERSION_CMAKE: "Visual Studio 11 Win64"
+      RTM_MSI: "OpenRTM-aist-1.1.2-RELEASE_x86_64.msi"
 
 platform: x64
 
@@ -13,14 +20,11 @@ configuration:
   - Debug
   - Release
 
-cache:
-    - c:\projects\OpenRTM-aist-1.1.2-RELEASE_x86_64.msi
-
 install:
-  - ps: Start-FileDownload 'http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/OpenRTM-aist-1.1.2-RELEASE_x86_64.msi'
-  - start /wait msiexec /i OpenRTM-aist-1.1.2-RELEASE_x86_64.msi /qn /forcerestart /le "install.log"
-  - ps: Start-S1leep -s 10
   - choco install doxygen.install
+  - ps: Start-FileDownload "$env:RTM_MSI_URL\$env:RTM_MSI"
+  - start /wait msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
+  - ps: Start-S1leep -s 10 # wait restart
   - env
   - type install.log
 

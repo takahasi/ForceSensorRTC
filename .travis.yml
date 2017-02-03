@@ -3,12 +3,8 @@ sudo: required
 
 include:
   - os: linux
-    compiler: gcc
-    env: DIST=precise
-  - os: linux
     dist: trusty
     compiler: gcc
-    env: DIST=trusty
 
 addons:
   apt:
@@ -22,8 +18,8 @@ addons:
     - omniidl
 
 before_install:
-  - echo "deb http://openrtm.org/pub/Linux/ubuntu/ $DIST main" | sudo tee -a /etc/apt/sources.list
-    #  - sudo add-apt-repository -y "deb http://openrtm.org/pub/Linux/ubuntu/ $DIST main"
+    # - echo "deb http://openrtm.org/pub/Linux/ubuntu/ trusty main" | sudo tee -a /etc/apt/sources.list
+  - sudo add-apt-repository -y "deb http://openrtm.org/pub/Linux/ubuntu/ trusty main"
   - sudo apt-get -qq update
 
 install:
