@@ -24,7 +24,7 @@ install:
   - choco install doxygen.install
   - ps: Start-FileDownload "$env:RTM_MSI_URL\$env:RTM_MSI"
   - start /wait msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
-  - ps: Start-S1leep -s 10 # wait restart
+  - ps: Start-Sleep -s 10 # wait restart
   - env
   - type install.log
 
