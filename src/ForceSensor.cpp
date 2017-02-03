@@ -430,7 +430,7 @@ RTC::ReturnCode_t ForceSensor::openSerialPort(void)
 RTC::ReturnCode_t ForceSensor::readSerialPort(char *s, int slen, int *len)
 {
 #ifdef WIN32
-    ReadFile(m_hComm, s, slen, (DWORD&)len, NULL);
+    ReadFile(m_hComm, s, slen, (LPDWORD)len, NULL);
 #else /* WIN32 */
     *len = read(m_fd, s, slen);
 #endif /* WIN32 */
@@ -442,7 +442,7 @@ RTC::ReturnCode_t ForceSensor::readSerialPort(char *s, int slen, int *len)
 RTC::ReturnCode_t ForceSensor::writeSerialPort(char *s, int slen, int *len)
 {
 #ifdef WIN32
-    if (TRUE != WriteFile(m_hComm, s, slen, (DWORD&)&len, NULL))
+    if (TRUE != WriteFile(m_hComm, s, slen, (LPDWORD)&len, NULL))
 #else /* WIN32 */
     *len = write(m_fd, s, slen);
     if (0 >= *len)

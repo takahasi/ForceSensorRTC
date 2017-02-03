@@ -2,8 +2,8 @@ language: cpp
 sudo: required
 
 include:
-  - os: linux
-    compiler: gcc
+#  - os: linux
+#    compiler: gcc
   - os: linux
     dist: trusty
     compiler: gcc
@@ -20,8 +20,8 @@ addons:
     - omniidl
 
 before_install:
-  - if [[ `grep trusty /etc/lsb-release` -eq 0 ]]; then export DIST=trustyi && echo ${DIST}; fi
-  - if [[ `grep precise /etc/lsb-release` -eq 0 ]]; then export DIST=precise && echo ${DIST}; fi
+  - if [ `grep precise /etc/lsb-release` -eq 0 ]; then export DIST=precise && echo ${DIST}; fi
+  - if [ `grep trusty /etc/lsb-release` -eq 0 ]; then export DIST=trusty && echo ${DIST}; fi
   - sudo add-apt-repository -y "deb http://openrtm.org/pub/Linux/ubuntu/ ${DIST} main"
   - sudo apt-get -qq update
 
