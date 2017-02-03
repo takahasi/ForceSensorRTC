@@ -1,0 +1,16 @@
+image: ubuntu:14.04
+
+script:
+  - sudo apt-get -qq update
+  - sudo apt-get -y --force-yes install software-properties-common
+  - sudo apt-get -y --force-yes install g++ uuid-dev doxygen
+  - sudo apt-get -y --force-yes install omniorb-nameserver libomniorb4-dev omniidl
+  - echo "deb http://openrtm.org/pub/Linux/ubuntu/ trusty main" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get -qq update
+  - sudo apt-get install -y --force-yes openrtm-aist
+  - sudo apt-get install -y --force-yes openrtm-aist-dev
+  - sudo apt-get install -y --force-yes openrtm-aist-example
+  - mkdir build && cd build
+  - cmake ..
+  - make
+  - sudo make install
