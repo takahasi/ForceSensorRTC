@@ -29,9 +29,13 @@ install:
   - ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
   - ps: msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
   - ps: Start-Sleep -s 10 # wait restart
-  - cinst doxygen.install
-  - env
+  - rtpwd
   - type install.log
+
+  - cinst doxygen.install
+  - doxygen --version
+
+  - env
 
 build:
 
