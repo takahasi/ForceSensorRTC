@@ -1,6 +1,6 @@
 environment:
   global:
-    - RTM_MSI_URL: http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/
+    RTM_MSI_URL: http://openrtm.org/pub/Windows/OpenRTM-aist/1.1/
   matrix:
     - RTM_VC_VERSION: vc14
       RTM_VC_VERSION_CMAKE: "Visual Studio 14 Win64"
