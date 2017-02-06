@@ -31,7 +31,10 @@ install:
   - ps: Start-Sleep -s 10 # wait restart
   - type install.log
 
-  - cinst doxygen.install && doxygen --version
+  - cinst doxygen.install
+  - ps: Restart-Computer
+  - ps: Start-Sleep -s 10 # wait restart
+  - doxygen --version
 
   - env
 
