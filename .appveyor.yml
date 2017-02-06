@@ -26,13 +26,12 @@ configuration:
   - Release
 
 install:
-  - appveyor-retry ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
-  - appveyor-retry ps: msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
+  - ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
+  - ps: msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
   - ps: Start-Sleep -s 10 # wait restart
   - type install.log
 
-  - appveyor-retry cinst doxygen.install
-  - appveyor-retry doxygen --version
+  - cinst doxygen.install && doxygen --version
 
   - env
 
