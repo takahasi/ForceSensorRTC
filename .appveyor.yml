@@ -27,7 +27,13 @@ configuration:
 
 install:
   - ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
+  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0"
+  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "PromptOnSecureDesktop" /t REG_DWORD /d "0"
+  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "EnableLUA" /t REG_DWORD /d "0"
+  - reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v "FilterAdministratorToken" /t REG_DWORD /d "1"
+  - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
   - start /wait msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
+  - ps: Restart-Computer -Force -ErrorAction SilentlyContinue
   - ps: Start-Sleep -s 10 # wait restart
   - type install.log
   - cinst doxygen.install -y
