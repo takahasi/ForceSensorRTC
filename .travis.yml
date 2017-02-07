@@ -51,7 +51,7 @@ script:
   - sudo make install
 
 before_deploy:
-  - make package
+  - sudo make package
 
 deploy:
   provider: releases
