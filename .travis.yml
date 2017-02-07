@@ -50,12 +50,14 @@ script:
   - make
   - sudo make install
 
+before_deploy:
+  - make package
+
 deploy:
   provider: releases
   api_key:
     secure: "wd5HWm1gkCOk0MY2Pq6kKRNlMp93BtDGlsnidPPDNSrY9O8sKebGBE06zLrHTueEUQiLqoWIaRkSBYu/JuJHmncEOhTAPDWn5XIj0Q3kiEqBFgYQOS1SI+XHCYMTSv2Pe8p7rXQQXtJCvgsYFanggLh8a48DICy2ua1UjQ3f50IN0e2eIiyFQwvKZWAjDtbvFGQCB5pJ5RZwtMVrqo2ttXN1mDg1PVDKrC194LQMyp4TciWOt9IdulzpGa/tRn8BCxnsKl/Q7gPFx436lBFPds+CvfUzGavzE9JagLGRolcFA9GckX9zfTB5wlAdTHCZ3/bL6Elp+PvBvgH9/pYCmd2DbbcopMCOBgrRs9hDHCv20ZMA7Ax7lq6XNC82Mb9LUODDgNHAQUtuxj4MjcETQaAyVDG0fG2ENqS42MkjGJ7OBPRVn3oGm9eivKEaHaODRjoAKoYV4MgMGWbEzpe2F/csJfeDuSF4KYQ7zNHYnXS1eER6PB6tKCW17XmJhDMvDcIfYwvgcxWrzYUNGdfZyBl3AlvdGgk+q0rEe5154F+P9y1JzAVr8lRAdF4TpXAtrdWQg9xDol8LLwUsHVRwCrAIF+QyRC3PInNtyxByhGHlGGKJZHp0W65cCcMrBFusq1HnBnmza/2Y8PllOjo+HT5QeazzG2yLH3RxsUnbO/o="
-  file: src/*.so
-  file: src/*Comp
+  file: ForceSensor-1.0.0.tar.gz
   skip_cleanup: true
   on:
     tags: false
