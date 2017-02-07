@@ -26,11 +26,12 @@ configuration:
   - Release
 
 install:
-  - cinst doxygen.portable
   - ps: Start-FileDownload "$env:RTM_MSI_URL$env:RTM_MSI"
   - start /wait msiexec /i "$env:RTM_MSI" /qn /forcerestart /le "install.log"
   - ps: Start-Sleep -s 10 # wait restart
   - type install.log
+  - cinst doxygen.install -y
+  - refreshenv
   - env
 
 build:
