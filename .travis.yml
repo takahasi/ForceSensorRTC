@@ -6,10 +6,17 @@ matrix:
     - os: linux
       dist: trusty
       compiler: gcc
-      env: DIST="trusty"
+      env: OPENRTM_REPO="deb http://openrtm.org/pub/Linux/ubuntu/ trusty main"
     - os: linux
       compiler: gcc
-      env: DIST="precise"
+      env: OPENRTM_REPO="deb http://openrtm.org/pub/Linux/ubuntu/ precise main"
+    - os: linux
+      dist: trusty
+      compiler: gcc
+      env: OPENRTM_REPO="deb http://staging.openrtm.org/pub/Linux/ubuntu/ trusty main"
+    - os: linux
+      compiler: gcc
+      env: OPENRTM_REPO="deb http://staging.openrtm.org/pub/Linux/ubuntu/ precise main"
 
 addons:
   apt:
@@ -23,11 +30,15 @@ addons:
     - omniidl
 
 before_script:
-  - echo "deb http://openrtm.org/pub/Linux/ubuntu/ $DIST main" | sudo tee -a /etc/apt/sources.list
+  - echo $OPENRTM_REPO | sudo tee -a /etc/apt/sources.list
   - sudo apt-get -qq update
   - sudo apt-get install -y --force-yes openrtm-aist
   - sudo apt-get install -y --force-yes openrtm-aist-dev
   - sudo apt-get install -y --force-yes openrtm-aist-example
 
 script:
-  - mkdir build && cd build && cmake .. && make
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - sudo make install
