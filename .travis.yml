@@ -37,7 +37,7 @@ addons:
     - omniidl
 
 before_script:
-    - echo "deb $repo main" | sudo tee -a /etc/apt/sources.list
+  - echo "deb $repo main" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get -qq update
   - sudo apt-get install -y --force-yes openrtm-aist
   - sudo apt-get install -y --force-yes openrtm-aist-dev
