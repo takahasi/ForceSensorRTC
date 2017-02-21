@@ -13,17 +13,17 @@ matrix:
     - os: linux
       dist: trusty
       compiler: gcc
-      env: OPENRTM_REPO="deb http://openrtm.org/pub/Linux/ubuntu/ trusty main"
+      env: repo="http://openrtm.org/pub/Linux/ubuntu/ trusty"
     - os: linux
       compiler: gcc
-      env: OPENRTM_REPO="deb http://openrtm.org/pub/Linux/ubuntu/ precise main"
+      env: repo="http://openrtm.org/pub/Linux/ubuntu/ precise"
     - os: linux
       dist: trusty
       compiler: gcc
-      env: OPENRTM_REPO="deb http://staging.openrtm.org/pub/Linux/ubuntu/ trusty main"
+      env: repo="http://staging.openrtm.org/pub/Linux/ubuntu/ trusty"
     - os: linux
       compiler: gcc
-      env: OPENRTM_REPO="deb http://staging.openrtm.org/pub/Linux/ubuntu/ precise main"
+      env: repo="http://staging.openrtm.org/pub/Linux/ubuntu/ precise"
 
 addons:
   apt:
@@ -37,7 +37,7 @@ addons:
     - omniidl
 
 before_script:
-  - echo $OPENRTM_REPO | sudo tee -a /etc/apt/sources.list
+    - echo "deb $repo main" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get -qq update
   - sudo apt-get install -y --force-yes openrtm-aist
   - sudo apt-get install -y --force-yes openrtm-aist-dev
@@ -60,5 +60,5 @@ deploy:
   file: ForceSensor-1.0.0.tar.gz
   skip_cleanup: true
   on:
-    tags: false
+    tags: true
     all_branches: true
