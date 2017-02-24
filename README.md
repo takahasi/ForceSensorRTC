@@ -19,7 +19,9 @@ Readme
 Build Status
 ============
 
-[![Build Status](https://travis-ci.org/takahasi/ForceSensorRTC.svg?branch=master)](https://travis-ci.org/takahasi/ForceSensorRTC)
+### TraviCI [![Build Status](https://travis-ci.org/takahasi/ForceSensorRTC.svg?branch=master)](https://travis-ci.org/takahasi/ForceSensorRTC)
+
+#### Appveyor [![Build status](https://ci.appveyor.com/api/projects/status/t5xxur9vckvanjbn?svg=true)](https://ci.appveyor.com/project/takahasi/forcesensorrtc)
 
 
 Basic Information
