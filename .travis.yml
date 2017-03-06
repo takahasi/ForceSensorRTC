@@ -10,17 +10,21 @@ notifications:
 
 matrix:
   include:
+    # Ubuntu14.04 + Stable OpenRTM-aist
     - os: linux
       dist: trusty
       compiler: gcc
       env: repo="http://openrtm.org/pub/Linux/ubuntu/ trusty"
+    # Ubuntu12.04 + Stable OpenRTM-aist
     - os: linux
       compiler: gcc
       env: repo="http://openrtm.org/pub/Linux/ubuntu/ precise"
+    # Ubuntu14.04 + Latest OpenRTM-aist
     - os: linux
       dist: trusty
       compiler: gcc
       env: repo="http://staging.openrtm.org/pub/Linux/ubuntu/ trusty"
+    # Ubuntu12.04 + Latest OpenRTM-aist
     - os: linux
       compiler: gcc
       env: repo="http://staging.openrtm.org/pub/Linux/ubuntu/ precise"
